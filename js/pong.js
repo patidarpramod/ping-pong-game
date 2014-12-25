@@ -1,14 +1,18 @@
 var WIDTH=700, HEIGHT=600;
 
 var canvas, ctx, keystate;
-
+var upArrow = 38, downArrow=40;
 player = {
     x: null,
     y: null,
     width: 20,
     height: 100,
     
-    update: function(){},
+    update: function(){
+    if(keystate[upArrow]) this.y = this.y -7;
+    if(keystate[downArrow]) this.y = this.y + 7;    
+        
+    },
     draw: function() {
         ctx.fillRect(this.x, this.y, this.width, this.height );
     }
@@ -39,6 +43,7 @@ ball = {
 };
 
 function main(){
+    attachKeyListeners();
     canvas = document.createElement("canvas");
     canvas.width=WIDTH;
     canvas.height=HEIGHT;
@@ -53,6 +58,19 @@ function main(){
     }
    
     window.requestAnimationFrame(loop, canvas);
+}
+
+function attachKeyListeners(){
+keystate = [];
+document.addEventListener("keydown", function(evt){
+  keystate[evt.keyCode] = true;
+});
+
+document.addEventListener("keyup", function(evt){
+  delete keystate[evt.keyCode];
+});
+
+    
 }
 
 function init(){
