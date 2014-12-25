@@ -83,10 +83,21 @@ function draw(){
     player.draw();
     ai.draw();
     ball.draw();
+    drawNet();
     // now restore to black backgroud
     ctx.restore();
     
 }
 
+function drawNet(){
+    var w =4;
+    var x = (WIDTH - w)/2;
+    var y= 0;
+    var step = HEIGHT / 20;
+    while (y < HEIGHT){
+       ctx.fillRect(x, y+step*0.25, w, step*0.5);
+        y = y+step;
+    }
+}
 
 main();
