@@ -33,10 +33,18 @@ ai = {
 ball = {
     x: null,
     y: null,
+    velocity : null,
     size: 20,
+    speed: 5,
     
-    
-    update: function(){},
+    update: function(){
+        this.x += this.velocity.x;
+        this.y += this.velocity.y;
+        //provide a ball bounce effect over the net line
+        if( 0 > this.y || this.y+this.size > HEIGHT){
+           this.velocity.y *= -1; 
+        }
+    },
     draw: function() {
         ctx.fillRect(this.x, this.y, this.size, this.size );
     }
@@ -83,6 +91,10 @@ function init(){
    //init ball
     ball.x = (WIDTH - ball.size)/2;
     ball.y = (HEIGHT - ball.size)/2;
+    ball.velocity = {
+        x: 0,
+        y: ball.speed
+    }
  
 }
 
