@@ -42,8 +42,21 @@ ball = {
         this.y += this.velocity.y;
         //provide a ball bounce effect over the net line
         if( 0 > this.y || this.y+this.size > HEIGHT){
+            //TODO: offset?
            this.velocity.y *= -1; 
         }
+        
+        var twoObjIntersect = function(ax, ay, aw, ah, bx, by, bw, bh){
+            return ax< bx+bw && ay < by+bh && bx<ax+aw && by<ay+ah;
+        }
+        
+        //determine whose paddle is in action (player or ai)
+        var paddle =  this.velocity.x < 0 ? player : ai;
+        if(twoObjIntersect(paddle.x,paddle.y,paddle.width,paddle.height, this.x,this.y,this.size,this.size))  {
+        this.velocity.x *= -1;
+        }
+        
+        
     },
     draw: function() {
         ctx.fillRect(this.x, this.y, this.size, this.size );
@@ -92,8 +105,8 @@ function init(){
     ball.x = (WIDTH - ball.size)/2;
     ball.y = (HEIGHT - ball.size)/2;
     ball.velocity = {
-        x: 0,
-        y: ball.speed
+        x: ball.speed,
+        y: 0
     }
  
 }
