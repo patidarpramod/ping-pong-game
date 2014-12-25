@@ -75,9 +75,17 @@ function update(){
 }
 
 function draw(){
+    //backgrond in black by default
+    ctx.fillRect(0,0,WIDTH,HEIGHT);
+    ctx.save(); //save context - black background.
+    ctx.fillStyle =  "#FFF"; //now start a new color  - white
+    //draw with white color
     player.draw();
     ai.draw();
     ball.draw();
+    // now restore to black backgroud
+    ctx.restore();
+    
 }
 
 
