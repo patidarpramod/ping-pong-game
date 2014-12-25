@@ -26,6 +26,17 @@ ai = {
     }
 };
 
+ball = {
+    x: null,
+    y: null,
+    size: 20,
+    
+    
+    update: function(){},
+    draw: function() {
+        ctx.fillRect(this.x, this.y, this.size, this.size );
+    }
+};
 
 function main(){
     canvas = document.createElement("canvas");
@@ -51,17 +62,22 @@ function init(){
     //init ai
     ai.x = WIDTH - (player.width + ai.width);
     ai.y = (HEIGHT - ai.height)/2;
+   //init ball
+    ball.x = (WIDTH - ball.size)/2;
+    ball.y = (HEIGHT - ball.size)/2;
  
 }
 
 function update(){
     player.update();
     ai.update();
+    ball.update();
 }
 
 function draw(){
     player.draw();
     ai.draw();
+    ball.draw();
 }
 
 
