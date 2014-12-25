@@ -2,12 +2,27 @@ var WIDTH=700, HEIGHT=600;
 
 var canvas, ctx, keystate;
 
+player = {
+    x: null,
+    y: null,
+    width: 20,
+    height: 100,
+    
+    update: function(){},
+    draw: function() {
+        ctx.fillRect(this.x, this.y, this.width, this.height );
+    }
+};
+
+
 function main(){
     canvas = document.createElement("canvas");
     canvas.width=WIDTH;
     canvas.height=HEIGHT;
     ctx= canvas.getContext("2d");
     document.body.appendChild(canvas);
+    init();
+    
     var loop = function(){
         update();
         draw();
@@ -17,36 +32,19 @@ function main(){
     window.requestAnimationFrame(loop, canvas);
 }
 
-var counter=0;
-var txt = document.getElementById("txt");
-
+function init(){
+    player.x = player.width;
+    player.y = (HEIGHT - player.height)/2;
+ 
+}
 
 function update(){
+    player.update();
 }
 
-var operation;
 function draw(){
-    console.log(counter);
-    txt.innerHTML=counter;
-    
-     ctx.fillRect(0,0,counter,counter);
-    
-    if(counter == 0){
-      operation =1; //increment
-      ctx.fillStyle="rgb(255,255,"+counter+100+")";  
-    }
-    if(counter == 200){
-      operation = -1; //decrement
-      ctx.fillStyle="rgb(255,0,"+counter+100+")"; 
-      
-        // ctx.clearRect ( 0 , 0 ,WIDTH, HEIGHT );  
-    }
-    
-    if(operation == 1){
-        counter++;
-    }else if(operation ==-1){
-        counter--;
-    }
+    player.draw();
 }
+
 
 main();
