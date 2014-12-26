@@ -28,7 +28,7 @@ ai = {
     
     update: function(){
      var desty = ball.y -(this.height - ball.size)/ 2;
-     this.y = desty;
+     this.y += (desty - this.y) *0.1;
 
     },
     draw: function() {
@@ -41,7 +41,7 @@ ball = {
     y: null,
     velocity : null,
     size: 20,
-    speed: 5,
+    speed: 10,
     
     update: function(){
         this.x += this.velocity.x;
