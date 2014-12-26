@@ -26,7 +26,11 @@ ai = {
     width: 20,
     height: 100,
     
-    update: function(){},
+    update: function(){
+     var desty = ball.y -(this.height - ball.size)/ 2;
+     this.y = desty;
+
+    },
     draw: function() {
         ctx.fillRect(this.x, this.y, this.width, this.height );
     }
