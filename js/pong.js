@@ -160,7 +160,7 @@ function logme(txtArray){
      txt +=txtArray[i]+ " ,  ";
      }
     txt +="]"
-logger.innerHTML = txt;
+ if(logger) logger.innerHTML = txt;
 }
 
 main();
