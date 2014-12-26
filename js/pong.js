@@ -62,9 +62,10 @@ ball = {
         //this is to determine where ball hits on the paddle in terms of value between 0 and 1
         var n = (this.y+this.size - paddle.y)/ (paddle.height+this.size);
         var angle = (Math.PI/4)*(2*n - 1); //pi/4 == 45 degrees
+        var smash = Math.abs(angle) > 0.2 * Math.PI ? 1.5 :1;
         //this.velocity.x *= -1;
-        this.velocity.x = ((paddle === player) ? 1 : -1) * this.speed*Math.cos(angle);
-        this.velocity.y = this.speed*Math.sin(angle);
+        this.velocity.x = smash * ((paddle === player) ? 1 : -1) * this.speed*Math.cos(angle);
+        this.velocity.y = smash * this.speed*Math.sin(angle);
         
                logme([angle,this.velocity.x , this.velocity.y]);
             
