@@ -1,3 +1,5 @@
+
+var logger = document.getElementById("log");
 var WIDTH=700, HEIGHT=600;
 
 var canvas, ctx, keystate;
@@ -53,9 +55,18 @@ ball = {
         //determine whose paddle is in action (player or ai)
         var paddle =  this.velocity.x < 0 ? player : ai;
         if(twoObjIntersect(paddle.x,paddle.y,paddle.width,paddle.height, this.x,this.y,this.size,this.size))  {
-        this.velocity.x *= -1;
+        //this is to determine where ball hits on the paddle in terms of value between 0 and 1
+        var n = (this.y+this.size - paddle.y)/ (paddle.height+this.size);
+        var angle = (Math.PI/4)*(2*n - 1); //pi/4 == 45 degrees
+        //this.velocity.x *= -1;
+        this.velocity.x = ((paddle === player) ? 1 : -1) * this.speed*Math.cos(angle);
+        this.velocity.y = this.speed*Math.sin(angle);
+        
+               logme([angle,this.velocity.x , this.velocity.y]);
+            
         }
         
+     
         
     },
     draw: function() {
@@ -141,6 +152,15 @@ function drawNet(){
        ctx.fillRect(x, y+step*0.25, w, step*0.5);
         y = y+step;
     }
+}
+
+function logme(txtArray){
+    var txt= "[";
+    for(i in txtArray){
+     txt +=txtArray[i]+ " ,  ";
+     }
+    txt +="]"
+logger.innerHTML = txt;
 }
 
 main();
