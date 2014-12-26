@@ -12,8 +12,9 @@ player = {
     
     update: function(){
     if(keystate[upArrow]) this.y = this.y -7;
-    if(keystate[downArrow]) this.y = this.y + 7;    
-        
+    if(keystate[downArrow]) this.y = this.y + 7;   
+    //this is so that paddle doesn't go outside of game world.
+    this.y = Math.max(Math.min(this.y, HEIGHT-this.height),0);   
     },
     draw: function() {
         ctx.fillRect(this.x, this.y, this.width, this.height );
@@ -29,7 +30,8 @@ ai = {
     update: function(){
      var desty = ball.y -(this.height - ball.size)/ 2;
      this.y += (desty - this.y) *0.1;
-
+     //this is so that paddle doesn't go outside of game world.
+     this.y = Math.max(Math.min(this.y, HEIGHT-this.height),0);   
     },
     draw: function() {
         ctx.fillRect(this.x, this.y, this.width, this.height );
@@ -42,7 +44,18 @@ ball = {
     velocity : null,
     size: 20,
     speed: 10,
-    
+    //to elimiate comdition where we can abuse game and always win by just keeping paddle on winning position
+    server : function(side){
+        var r = Math.random();
+        this.x = side ===1 ? player.x+ player.width : ai.x - this.size;
+        this.y = (HEIGHT - this.size)*r;
+        var angle = 0.1 * Math.PI *(1 - 2*r);
+        this.velocity = {
+            x: side * this.speed * Math.cos(angle),
+            y: this.speed * Math.sin(angle)
+        }
+    },
+
     update: function(){
         this.x += this.velocity.x;
         this.y += this.velocity.y;
@@ -73,12 +86,14 @@ ball = {
        if (0> this.x+ this.size || this.x > WIDTH){
         //set ball directions..copied from init()
 
-        ball.x = (WIDTH - ball.size)/2;
+        /* ball.x = (WIDTH - ball.size)/2;
         ball.y = (HEIGHT - ball.size)/2;
         ball.velocity = {
             x: ((paddle === player) ? 1 : -1) * ball.speed,
             y: 0
-        }
+        }*/
+      
+        this.server((paddle === player) ? 1 : -1);
 
        }     
         
@@ -126,13 +141,15 @@ function init(){
     //init ai
     ai.x = WIDTH - (player.width + ai.width);
     ai.y = (HEIGHT - ai.height)/2;
-   //init ball
-    ball.x = (WIDTH - ball.size)/2;
+    
+    //init ball
+    /*ball.x = (WIDTH - ball.size)/2;
     ball.y = (HEIGHT - ball.size)/2;
     ball.velocity = {
         x: ball.speed,
         y: 0
-    }
+    }*/
+     ball.server(1);
  
 }
 
