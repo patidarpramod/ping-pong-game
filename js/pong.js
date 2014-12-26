@@ -66,12 +66,21 @@ ball = {
         //this.velocity.x *= -1;
         this.velocity.x = smash * ((paddle === player) ? 1 : -1) * this.speed*Math.cos(angle);
         this.velocity.y = smash * this.speed*Math.sin(angle);
-        
                logme([angle,this.velocity.x , this.velocity.y]);
-            
         }
         
-     
+       //SERVE new ball
+       if (0> this.x+ this.size || this.x > WIDTH){
+        //set ball directions..copied from init()
+
+        ball.x = (WIDTH - ball.size)/2;
+        ball.y = (HEIGHT - ball.size)/2;
+        ball.velocity = {
+            x: ((paddle === player) ? 1 : -1) * ball.speed,
+            y: 0
+        }
+
+       }     
         
     },
     draw: function() {
